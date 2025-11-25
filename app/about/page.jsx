@@ -1,78 +1,148 @@
+"use client";
+
 import Link from "next/link";
+import { motion } from "framer-motion";
 
 export default function About() {
   return (
-    <div className="min-h-screen px-6 sm:px-10 py-16 bg-gradient-to-br from-slate-100 to-white text-gray-800">
-      <div className="max-w-4xl mx-auto">
-        <h1 className="text-4xl font-extrabold text-center mb-10 text-blue-700">
-          About Me
-        </h1>
+    <div className="min-h-screen bg-[#050510] text-gray-200 px-6 sm:px-10 py-20 relative overflow-hidden">
 
-    
-        <section className="mb-10 text-center">
-          <p className="text-lg sm:text-xl leading-relaxed">
-            I'm <span className="font-semibold text-blue-700">Sourabh Prasad</span>, a passionate{" "}
-            <strong className="text-blue-600">Full Stack Developer</strong> with a deep love for crafting modern, scalable, and performance-driven web applications. I specialize in building full-stack apps using the <strong>Next.js</strong> framework, backed by a powerful MongoDB database and topped with seamless UI/UX using Tailwind CSS.
-          </p>
-        </section>
+      {/* ⭐ Background Glow */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.08),transparent_70%)]" />
+      <div className="absolute top-0 left-0 w-72 h-72 bg-purple-600/20 blur-[120px]" />
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-500/20 blur-[140px]" />
 
-    
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold text-blue-600 mb-4">🚀 Tech Stack</h2>
-          <ul className="grid grid-cols-2 sm:grid-cols-3 gap-4 text-lg font-medium text-gray-700">
-            <li>Next.js</li>
-            <li>React</li>
-            <li>Node.js</li>
-            <li>MongoDB</li>
-            <li>Tailwind CSS</li>
-            <li>Razorpay</li>
-            <li>Cloudinary</li>
-            <li>JWT Auth</li>
-            <li>REST APIs</li>
-          </ul>
-        </section>
-
+      <div className="relative z-10 max-w-6xl mx-auto">
         
-        <section className="mb-10">
-          <h2 className="text-2xl font-semibold text-blue-600 mb-4">💼 Latest Project: Full-Stack E-commerce Website</h2>
-          <p className="leading-loose text-gray-700 mb-4">
-            I recently built a <strong>fully functional, modern e-commerce platform</strong> using the MERN stack (MongoDB, Express.js, React, Node.js) with <strong>Next.js</strong> at the core. It features a smooth user experience with secure authentication (JWT + HTTP-only cookies), an admin dashboard, product management, dynamic cart, order tracking, and integrated payments via <strong>Razorpay</strong>. I also implemented <strong>image uploads</strong> using <strong>Cloudinary</strong>, and all product, cart, and order data is stored and managed in <strong>MongoDB Atlas</strong>.
+        {/* ⭐ Title */}
+        <motion.h1
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-center text-5xl font-extrabold mb-12 bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text"
+        >
+          About Me
+        </motion.h1>
+
+        {/* ⭐ Intro Section */}
+        <motion.section
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6 }}
+          className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-xl mb-14"
+        >
+          <p className="text-lg sm:text-xl leading-relaxed text-gray-300 text-center">
+            I'm{" "}
+            <span className="font-semibold text-cyan-400">
+              Sourabh Prasad
+            </span>
+            , a dedicated{" "}
+            <strong className="text-blue-400">Full Stack Developer</strong>{" "}
+            who loves crafting modern, fast, and scalable digital experiences.
+            I primarily build using{" "}
+            <span className="text-cyan-400 font-semibold">Next.js</span>,
+            enhanced with powerful backend logic, clean UI, and cloud integrations.
           </p>
-          <ul className="list-disc list-inside text-gray-700 mb-4">
-            <li>Dynamic product listings with filtering and sorting</li>
-            <li>Secure user login/register with token-based auth</li>
-            <li>Admin-only access to manage products and view orders</li>
+        </motion.section>
+
+        {/* ⭐ Tech Stack */}
+        <motion.section
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8 }}
+          className="mb-14"
+        >
+          <h2 className="text-3xl font-bold mb-6 text-cyan-400">
+            🚀 Tech Stack
+          </h2>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+            {[
+              "Next.js",
+              "React",
+              "Node.js",
+              "MongoDB",
+              "Tailwind CSS",
+              "Cloudinary",
+              "JWT Auth",
+              "REST APIs",
+              "Razorpay",
+              "Express.js",
+            ].map((tech, idx) => (
+              <motion.div
+                key={idx}
+                whileHover={{ scale: 1.07 }}
+                className="bg-white/10 border border-white/10 py-3 text-center rounded-xl shadow-md text-gray-200"
+              >
+                {tech}
+              </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ⭐ Featured Project */}
+        <motion.section
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-8 shadow-xl"
+        >
+          <h2 className="text-3xl font-bold text-blue-400 mb-4">
+            💼 Latest Project: Full-Stack E-commerce Platform
+          </h2>
+
+          <p className="leading-relaxed text-gray-300 mb-4">
+            I recently developed a complete{" "}
+            <strong className="text-cyan-400">
+              e-commerce platform
+            </strong>{" "}
+            using the MERN + Next.js stack. It includes:
+          </p>
+
+          <ul className="list-disc list-inside text-gray-300 space-y-2">
+            <li>Secure authentication (JWT + HTTP-only cookies)</li>
+            <li>Admin dashboard with full product controls</li>
             <li>Razorpay payment gateway integration</li>
-            <li>Cloudinary for image uploads</li>
-            <li>Protected routes using middleware and role-based access</li>
+            <li>Cloudinary for high-performance image uploads</li>
+            <li>Product filtering, sorting & dynamic search</li>
+            <li>Order tracking + role-based access</li>
           </ul>
+
           <Link
             href="/projects"
-            className="inline-block mt-4 px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-transform hover:scale-105"
+            className="mt-6 inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl text-white font-semibold shadow-md transition-transform hover:scale-105"
           >
             🔍 Explore Project Details
           </Link>
-        </section>
+        </motion.section>
 
-    
-        <section className="text-center mt-16">
-          <p className="text-lg mb-4">Want to collaborate or learn more?</p>
+        {/* ⭐ CTA */}
+        <motion.section
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.2 }}
+          className="text-center mt-16"
+        >
+          <p className="text-lg text-gray-300 mb-4">
+            Want to collaborate or hire me?
+          </p>
+
           <div className="space-x-4">
             <Link
               href="/contact"
-              className="px-6 py-3 bg-blue-500 text-white font-semibold rounded-md hover:bg-blue-600 transition"
+              className="px-6 py-3 bg-cyan-600 text-white font-semibold rounded-xl hover:bg-cyan-700 transition hover:scale-105"
             >
               📬 Contact Me
             </Link>
+
             <a
               href="/resume.pdf"
               target="_blank"
-              className="px-6 py-3 border border-blue-500 text-blue-600 font-semibold rounded-md hover:bg-blue-100 transition"
+              className="px-6 py-3 border border-cyan-500 text-cyan-400 font-semibold rounded-xl hover:bg-cyan-900/40 transition hover:scale-105"
             >
               📄 Download Resume
             </a>
           </div>
-        </section>
+        </motion.section>
       </div>
     </div>
   );

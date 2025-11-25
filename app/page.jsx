@@ -1,48 +1,130 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 import Image from "next/image";
 
-export default function Home() {
-  const [text, setText] = useState("");
-  const fullText = "Hi, I'm Sourabh Prasad";
+export default function LandingPage() {
+  const canvasRef = useRef(null);
+  const [particles, setParticles] = useState([]);
+  const maxParticles = 40;
 
+  // ⭐ Cursor Game Particles
   useEffect(() => {
-    let i = 0;
-    const interval = setInterval(() => {
-      setText(fullText.slice(0, i + 1));
-      i++;
-      if (i === fullText.length) clearInterval(interval);
-    }, 100);
-    return () => clearInterval(interval);
-  }, []);
+    const canvas = canvasRef.current;
+    const ctx = canvas.getContext("2d");
+    let animationFrame;
+
+    const resizeCanvas = () => {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    };
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    const createParticle = (x, y) => ({
+      x,
+      y,
+      size: Math.random() * 8 + 2,
+      speedX: Math.random() * 2 - 1,
+      speedY: Math.random() * 2 - 1,
+      opacity: 1,
+    });
+
+    const handleMouseMove = (e) => {
+      if (particles.length > maxParticles) particles.shift();
+      particles.push(createParticle(e.clientX, e.clientY));
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    const animate = () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      particles.forEach((p, i) => {
+        p.x += p.speedX;
+        p.y += p.speedY;
+        p.opacity -= 0.01;
+
+        if (p.opacity <= 0) particles.splice(i, 1);
+
+        ctx.fillStyle = `rgba(0, 255, 255, ${p.opacity})`;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      });
+
+      animationFrame = requestAnimationFrame(animate);
+    };
+
+    animate();
+
+    return () => {
+      cancelAnimationFrame(animationFrame);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
+  }, [particles]);
 
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#0f172a] text-white px-4">
-      <div className="backdrop-blur-lg bg-white/5 p-10 rounded-2xl shadow-2xl max-w-2xl text-center border border-white/10">
-        <div className="flex flex-col items-center">
-          
+    <main className="relative min-h-screen flex items-center justify-center bg-[#050510] overflow-hidden text-white px-6">
+      {/* ⭐ Background Lights */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,150,255,0.15),transparent_70%)]" />
+      <div className="absolute top-0 left-0 w-60 h-60 bg-purple-500/20 rounded-full blur-3xl" />
+      <div className="absolute bottom-0 right-0 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl" />
+
+      {/* ⭐ Canvas Mouse Game */}
+      <canvas ref={canvasRef} className="absolute inset-0 z-0" />
+
+      {/* ⭐ Center Card */}
+      <motion.div
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 1 }}
+        className="relative z-10 bg-white/10 backdrop-blur-xl border border-white/10 rounded-3xl p-10 shadow-2xl max-w-3xl text-center"
+      >
+        {/* Avatar */}
+        <motion.div
+          whileHover={{ scale: 1.1, rotate: 3 }}
+          transition={{ type: "spring", stiffness: 200 }}
+          className="flex justify-center"
+        >
           <Image
-            src="/profile.jpg" 
-            alt="Sourabh Prasad"
-            width={200}
-            height={200}
-            className="rounded-full border-4 border-blue-500 mb-4"
+            src="/profile.jpg"
+            width={180}
+            height={180}
+            alt="Profile"
+            className="rounded-full border-4 border-cyan-400 shadow-xl"
           />
-          <h1 className="text-4xl sm:text-5xl font-extrabold bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-cyan-300 animate-pulse">
-            {text}
-          </h1>
-          <p className="mt-4 text-lg sm:text-xl text-gray-300">
-            Full Stack Developer | React, Next.js, Node, MongoDB
-          </p>
-          <a
+        </motion.div>
+
+        {/* Title */}
+        <h1 className="text-4xl sm:text-5xl font-extrabold mt-5 bg-gradient-to-r from-cyan-400 to-blue-500 text-transparent bg-clip-text">
+          Hi, I'm Sourabh Prasad
+        </h1>
+
+        <p className="mt-4 text-gray-300 text-lg sm:text-xl">
+          Full Stack Developer | Next.js | React | Node | MongoDB
+        </p>
+
+        {/* Buttons */}
+        <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
+          <motion.a
             href="/projects"
-            className="mt-6 inline-block px-6 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg transition-transform transform hover:scale-105 shadow-lg"
+            whileHover={{ scale: 1.1 }}
+            className="px-6 py-3 bg-cyan-600 hover:bg-cyan-700 rounded-xl font-semibold shadow-lg"
           >
-            🚀 View My Work
-          </a>
+            🚀 See My Projects
+          </motion.a>
+
+          <motion.a
+            href="/contact"
+            whileHover={{ scale: 1.1 }}
+            className="px-6 py-3 bg-blue-600 hover:bg-blue-700 rounded-xl font-semibold shadow-lg"
+          >
+            📩 Contact Me
+          </motion.a>
         </div>
-      </div>
+      </motion.div>
     </main>
   );
 }

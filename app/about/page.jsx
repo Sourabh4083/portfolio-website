@@ -7,14 +7,14 @@ export default function About() {
   return (
     <div className="min-h-screen bg-[#050510] text-gray-200 px-6 sm:px-10 py-20 relative overflow-hidden">
 
-      {/* ⭐ Background Glow */}
+      
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.08),transparent_70%)]" />
       <div className="absolute top-0 left-0 w-72 h-72 bg-purple-600/20 blur-[120px]" />
       <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-500/20 blur-[140px]" />
 
       <div className="relative z-10 max-w-6xl mx-auto">
         
-        {/* ⭐ Title */}
+        
         <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -23,7 +23,7 @@ export default function About() {
           About Me
         </motion.h1>
 
-        {/* ⭐ Intro Section */}
+        
         <motion.section
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
@@ -44,7 +44,7 @@ export default function About() {
           </p>
         </motion.section>
 
-        {/* ⭐ Tech Stack */}
+        
         <motion.section
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -79,7 +79,7 @@ export default function About() {
           </div>
         </motion.section>
 
-        {/* ⭐ Featured Project */}
+        
         <motion.section
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -115,7 +115,7 @@ export default function About() {
           </Link>
         </motion.section>
 
-        {/* ⭐ CTA */}
+        
         <motion.section
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}

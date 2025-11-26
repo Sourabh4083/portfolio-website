@@ -12,7 +12,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50 bg-[#050510]/40 backdrop-blur-xl border-b border-white/10 shadow-lg">
       <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
 
-        {/* ⭐ Logo */}
+        
         <motion.div
           whileHover={{ scale: 1.05 }}
           className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
@@ -20,7 +20,7 @@ export default function Navbar() {
           <Link href="/">Sourabh.</Link>
         </motion.div>
 
-        {/* ⭐ Desktop Menu */}
+        
         <div className="hidden sm:flex space-x-8 text-gray-300 font-medium">
           <motion.div whileHover={{ scale: 1.08 }}>
             <Link href="/" className="hover:text-cyan-400 transition">Home</Link>
@@ -36,7 +36,7 @@ export default function Navbar() {
           </motion.div>
         </div>
 
-        {/* ⭐ Desktop Icons */}
+        
         <div className="hidden sm:flex space-x-5 text-xl">
           <motion.a
             href="https://github.com/Sourabh4083"
@@ -57,7 +57,7 @@ export default function Navbar() {
           </motion.a>
         </div>
 
-        {/* ⭐ Mobile Hamburger */}
+        
         <button
           className="sm:hidden text-white text-2xl"
           onClick={() => setOpen(!open)}
@@ -66,7 +66,7 @@ export default function Navbar() {
         </button>
       </div>
 
-      {/* ⭐ Mobile Menu */}
+      
       {open && (
         <motion.div
           initial={{ opacity: 0, y: -20 }}

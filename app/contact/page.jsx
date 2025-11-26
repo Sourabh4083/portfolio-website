@@ -10,7 +10,7 @@ export default function Contact() {
   return (
     <div className="min-h-screen px-6 sm:px-10 py-16 bg-gradient-to-br from-[#0a0f1a] to-[#0a0a0a] flex flex-col items-center justify-center">
 
-      {/* Title */}
+      
       <motion.h1
         initial={{ opacity: 0, y: -30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -20,7 +20,7 @@ export default function Contact() {
         Contact Me
       </motion.h1>
 
-      {/* Form */}
+      
       <motion.form
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -61,7 +61,7 @@ export default function Contact() {
         hover:shadow-cyan-500/20 transition-all"
       >
 
-        {/* Input - Name */}
+        
         <div className="relative">
           <FaUser className="absolute top-3.5 left-4 text-gray-300" />
           <input
@@ -76,7 +76,7 @@ export default function Contact() {
           />
         </div>
 
-        {/* Input - Email */}
+        
         <div className="relative">
           <FaEnvelope className="absolute top-3.5 left-4 text-gray-300" />
           <input
@@ -91,7 +91,7 @@ export default function Contact() {
           />
         </div>
 
-        {/* Message */}
+        
         <textarea
           name="message"
           rows={5}
@@ -103,7 +103,7 @@ export default function Contact() {
           transition"
         ></textarea>
 
-        {/* Submit button */}
+        
         <button
           type="submit"
           disabled={isSubmitting}

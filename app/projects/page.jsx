@@ -44,12 +44,12 @@ export default function Projects() {
   return (
     <div className="min-h-screen bg-[#050510] text-gray-200 px-6 sm:px-10 py-20 relative overflow-hidden">
 
-      {/* ⭐ Background Effects */}
+    
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(0,255,255,0.06),transparent_60%)]" />
       <div className="absolute top-0 right-0 w-80 h-80 bg-cyan-500/20 blur-[120px]" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-blue-600/20 blur-[150px]" />
 
-      {/* ⭐ Title */}
+
       <motion.h1
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
@@ -70,7 +70,7 @@ export default function Projects() {
           >
             <div className="md:w-1/2">
 
-              {/* Website Preview Box */}
+              
               <a
                 href={project.link}
                 target="_blank"
@@ -85,19 +85,19 @@ export default function Projects() {
             </div>
             <div className="md:w-1/2">
 
-              {/* Project Title */}
+              
               <h2 className="text-3xl font-bold text-cyan-400 mb-4">
                 {project.title}
               </h2>
 
-              {/* Description */}
+    
               <ul className="list-disc list-inside text-gray-300 leading-relaxed space-y-2 mb-6">
                 {project.description.map((point, idx) => (
                   <li key={idx}>{point}</li>
                 ))}
               </ul>
 
-              {/* View Website Button */}
+      
               {project.link && (
                 <Link
                   href={project.link}

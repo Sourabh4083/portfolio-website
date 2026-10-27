@@ -1,126 +1,140 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import { motion, AnimatePresence, useScroll, useSpring } from "framer-motion";
+import { useEffect, useState } from "react";
+import { profile, sections } from "../data/portfolio";
+import { openCommandPalette } from "./openCommandPalette";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState(null);
+  const pathname = usePathname();
+  const { scrollYProgress } = useScroll();
+  const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
+
+  // highlight the section currently in the middle of the viewport
+  useEffect(() => {
+    if (pathname !== "/") {
+      setActive(null);
+      return;
+    }
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) setActive(entry.target.id);
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach(({ id }) => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, [pathname]);
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-[#050510]/40 backdrop-blur-xl border-b border-white/10 shadow-lg">
-      <div className="max-w-7xl mx-auto px-6 py-4 flex justify-between items-center">
+    <nav className="fixed top-0 left-0 w-full z-50 bg-ink/70 backdrop-blur-xl border-b border-line">
+      <div className="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex justify-between items-center">
+        <Link href="/" className="font-mono text-sm font-semibold tracking-tight text-white">
+          sourabh<span className="text-accent">.dev</span>
+        </Link>
 
-        {/* ⭐ Logo */}
-        <motion.div
-          whileHover={{ scale: 1.05 }}
-          className="text-xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent"
-        >
-          <Link href="/">Sourabh.</Link>
-        </motion.div>
-
-        {/* ⭐ Desktop Menu */}
-        <div className="hidden sm:flex space-x-8 text-gray-300 font-medium">
-          <motion.div whileHover={{ scale: 1.08 }}>
-            <Link href="/" className="hover:text-cyan-400 transition">Home</Link>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.08 }}>
-            <Link href="/about" className="hover:text-cyan-400 transition">About</Link>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.08 }}>
-            <Link href="/projects" className="hover:text-cyan-400 transition">Projects</Link>
-          </motion.div>
-          <motion.div whileHover={{ scale: 1.08 }}>
-            <Link href="/contact" className="hover:text-cyan-400 transition">Contact</Link>
-          </motion.div>
+        {/* Desktop menu */}
+        <div className="hidden md:flex items-center gap-1 text-sm">
+          {sections.map(({ id, label }) => (
+            <Link
+              key={id}
+              href={`/#${id}`}
+              className={`relative px-3 py-2 rounded-lg transition-colors ${
+                active === id ? "text-white" : "text-muted hover:text-white"
+              }`}
+            >
+              {active === id && (
+                <motion.span
+                  layoutId="nav-active"
+                  className="absolute inset-0 -z-10 rounded-lg bg-white/[0.07]"
+                  transition={{ type: "spring", stiffness: 380, damping: 32 }}
+                />
+              )}
+              {label}
+            </Link>
+          ))}
         </div>
 
-        {/* ⭐ Desktop Icons */}
-        <div className="hidden sm:flex space-x-5 text-xl">
-          <motion.a
-            href="https://github.com/Sourabh4083"
-            target="_blank"
-            whileHover={{ scale: 1.2, color: "#00eaff" }}
-            className="text-gray-300 transition"
+        <div className="hidden md:flex items-center gap-4">
+          <button
+            onClick={openCommandPalette}
+            className="flex items-center gap-2 rounded-lg border border-line bg-surface px-3 py-1.5 text-xs text-muted hover:text-white hover:border-white/20 transition"
+            aria-label="Open command palette"
           >
+            Search
+            <kbd className="font-mono rounded bg-white/10 px-1.5 py-0.5 text-[10px]">Ctrl K</kbd>
+          </button>
+          <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="text-muted hover:text-white transition text-lg">
             <FaGithub />
-          </motion.a>
-
-          <motion.a
-            href="https://www.linkedin.com/in/sourabh-prasad-58b5541a1/"
-            target="_blank"
-            whileHover={{ scale: 1.2, color: "#0077ff" }}
-            className="text-gray-300 transition"
-          >
+          </a>
+          <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="text-muted hover:text-white transition text-lg">
             <FaLinkedin />
-          </motion.a>
+          </a>
         </div>
 
-        {/* ⭐ Mobile Hamburger */}
-        <button
-          className="sm:hidden text-white text-2xl"
-          onClick={() => setOpen(!open)}
-        >
-          {open ? "✖" : "☰"}
-        </button>
+        {/* Mobile */}
+        <div className="flex md:hidden items-center gap-3">
+          <button
+            onClick={openCommandPalette}
+            className="rounded-lg border border-line px-2.5 py-1 text-xs text-muted"
+            aria-label="Open command palette"
+          >
+            Search
+          </button>
+          <button
+            className="text-white text-xl w-8"
+            onClick={() => setOpen(!open)}
+            aria-label={open ? "Close menu" : "Open menu"}
+            aria-expanded={open}
+          >
+            {open ? "✕" : "☰"}
+          </button>
+        </div>
       </div>
 
-      {/* ⭐ Mobile Menu */}
-      {open && (
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="sm:hidden bg-[#050510]/70 backdrop-blur-xl border-t border-white/10 px-6 py-5 space-y-4 text-center"
-        >
-          <Link
-            href="/"
-            onClick={() => setOpen(false)}
-            className="block text-gray-200 text-lg hover:text-cyan-400 transition"
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            className="md:hidden overflow-hidden border-t border-line bg-ink/95"
           >
-            Home
-          </Link>
-          <Link
-            href="/about"
-            onClick={() => setOpen(false)}
-            className="block text-gray-200 text-lg hover:text-cyan-400 transition"
-          >
-            About
-          </Link>
-          <Link
-            href="/projects"
-            onClick={() => setOpen(false)}
-            className="block text-gray-200 text-lg hover:text-cyan-400 transition"
-          >
-            Projects
-          </Link>
-          <Link
-            href="/contact"
-            onClick={() => setOpen(false)}
-            className="block text-gray-200 text-lg hover:text-cyan-400 transition"
-          >
-            Contact
-          </Link>
+            <div className="px-5 py-5 space-y-1">
+              {sections.map(({ id, label }) => (
+                <Link
+                  key={id}
+                  href={`/#${id}`}
+                  onClick={() => setOpen(false)}
+                  className="block rounded-lg px-3 py-2.5 text-gray-200 hover:bg-white/5"
+                >
+                  {label}
+                </Link>
+              ))}
+              <div className="flex gap-5 px-3 pt-4 text-xl text-muted">
+                <a href={profile.github} target="_blank" rel="noopener noreferrer" aria-label="GitHub"><FaGithub /></a>
+                <a href={profile.linkedin} target="_blank" rel="noopener noreferrer" aria-label="LinkedIn"><FaLinkedin /></a>
+              </div>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
 
-          {/* Mobile Icons */}
-          <div className="flex justify-center space-x-6 text-xl pt-4">
-            <a
-              href="https://github.com/Sourabh4083"
-              target="_blank"
-              className="text-gray-300 hover:text-cyan-400 transition"
-            >
-              <FaGithub />
-            </a>
-            <a
-              href="https://www.linkedin.com/in/sourabh-prasad-58b5541a1/"
-              target="_blank"
-              className="text-gray-300 hover:text-blue-500 transition"
-            >
-              <FaLinkedin />
-            </a>
-          </div>
-        </motion.div>
-      )}
+      {/* scroll progress */}
+      <motion.div
+        style={{ scaleX: progress }}
+        className="absolute bottom-0 left-0 right-0 h-px origin-left bg-gradient-to-r from-accent to-accent-2"
+      />
     </nav>
   );
 }

@@ -5,7 +5,7 @@ export const profile = {
   role: "Full Stack Developer",
   location: "Chhattisgarh, India",
   email: "sourabhprasad602@gmail.com",
-  resume: "/Resume.pdf",
+  resume: "/resume.pdf",
   // Set NEXT_PUBLIC_SITE_URL in production; Vercel's own domain is the fallback.
   siteUrl:
     process.env.NEXT_PUBLIC_SITE_URL ||

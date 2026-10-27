@@ -10,17 +10,15 @@ import { openCommandPalette } from "./openCommandPalette";
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
-  const [active, setActive] = useState(null);
+  const [visibleSection, setActive] = useState(null);
   const pathname = usePathname();
+  const active = pathname === "/" ? visibleSection : null;
   const { scrollYProgress } = useScroll();
   const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 30 });
 
   // highlight the section currently in the middle of the viewport
   useEffect(() => {
-    if (pathname !== "/") {
-      setActive(null);
-      return;
-    }
+    if (pathname !== "/") return;
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {

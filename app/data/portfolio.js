@@ -21,7 +21,7 @@ export const profile = {
 };
 
 export const stats = [
-  { value: 1, suffix: "", label: "Live ERP in daily client use" },
+  { value: 2, suffix: "", label: "Business clients served" },
   { value: 21, suffix: "", label: "Database models designed" },
   { value: 180, suffix: "+", label: "Integration tests written" },
   { value: 5, suffix: "+", label: "Products shipped" },

@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { FaArrowRight, FaExternalLinkAlt } from "react-icons/fa";
+import { usePageTransition } from "./PageTransition";
 
 // sets --x/--y so the .spotlight border follows the cursor
 const trackSpotlight = (e) => {
@@ -14,6 +15,7 @@ const trackSpotlight = (e) => {
 
 export default function ProjectCard({ project, featured = false, index = 0 }) {
   const hasCaseStudy = Boolean(project.caseStudy);
+  const { start: startTransition } = usePageTransition();
 
   return (
     <motion.article
@@ -71,7 +73,16 @@ export default function ProjectCard({ project, featured = false, index = 0 }) {
         </div>
 
         <div className="mt-auto flex items-center gap-5 pt-7 text-sm font-medium">
-          <Link href={`/projects/${project.slug}`} className="btn-3d group/btn">
+          <Link
+            href={`/projects/${project.slug}`}
+            className="btn-3d group/btn"
+            onClick={(e) => {
+              // let ctrl/cmd/shift/middle clicks open a new tab as usual
+              if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || e.button !== 0) return;
+              e.preventDefault();
+              startTransition({ href: `/projects/${project.slug}`, x: e.clientX, y: e.clientY, label: project.title });
+            }}
+          >
             <span className="btn-3d-shadow" aria-hidden="true" />
             <span className="btn-3d-edge" aria-hidden="true" />
             <span className="btn-3d-front">

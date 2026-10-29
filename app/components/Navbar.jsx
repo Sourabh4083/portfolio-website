@@ -38,7 +38,7 @@ export default function Navbar() {
     <nav className="fixed top-0 left-0 w-full z-50 bg-ink/70 backdrop-blur-xl border-b border-line">
       <div className="max-w-6xl mx-auto px-5 sm:px-8 h-16 flex justify-between items-center">
         <Link href="/" className="font-mono text-sm font-semibold tracking-tight text-white">
-          sourabh<span className="text-accent">.dev</span>
+          sourabh<span data-transition-target className="inline-block text-accent">.dev</span>
         </Link>
 
         {/* Desktop menu */}

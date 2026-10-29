@@ -3,6 +3,7 @@ import "./globals.css";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import CommandPalette from "./components/CommandPalette";
+import { PageTransitionProvider } from "./components/PageTransition";
 import { profile } from "./data/portfolio";
 import { Analytics } from "@vercel/analytics/next";
 
@@ -58,10 +59,12 @@ export default function RootLayout({ children }) {
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
-        <Navbar />
-        <main className="pt-16">{children}</main>
-        <Footer />
-        <CommandPalette />
+        <PageTransitionProvider>
+          <Navbar />
+          <main className="pt-16">{children}</main>
+          <Footer />
+          <CommandPalette />
+        </PageTransitionProvider>
         <Analytics />
       </body>
     </html>

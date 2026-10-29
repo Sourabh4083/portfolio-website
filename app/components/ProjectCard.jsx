@@ -71,9 +71,13 @@ export default function ProjectCard({ project, featured = false, index = 0 }) {
         </div>
 
         <div className="mt-auto flex items-center gap-5 pt-7 text-sm font-medium">
-          <Link href={`/projects/${project.slug}`} className="inline-flex items-center gap-2 text-white hover:text-accent transition">
-            {hasCaseStudy ? "Read case study" : "Details"}
-            <FaArrowRight className="text-xs transition-transform group-hover:translate-x-1" />
+          <Link href={`/projects/${project.slug}`} className="btn-3d group/btn">
+            <span className="btn-3d-shadow" aria-hidden="true" />
+            <span className="btn-3d-edge" aria-hidden="true" />
+            <span className="btn-3d-front">
+              {hasCaseStudy ? "Read case study" : "Details"}
+              <FaArrowRight className="text-xs transition-transform group-hover/btn:translate-x-1" />
+            </span>
           </Link>
           {project.live && (
             <a href={project.live} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-muted hover:text-white transition">

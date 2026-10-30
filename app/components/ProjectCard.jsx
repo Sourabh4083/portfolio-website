@@ -2,7 +2,8 @@
 
 import Image from "next/image";
 import Link from "next/link";
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
 import { FaArrowRight, FaExternalLinkAlt } from "react-icons/fa";
 import { usePageTransition } from "./PageTransition";
 
@@ -16,6 +17,15 @@ const trackSpotlight = (e) => {
 export default function ProjectCard({ project, featured = false, index = 0 }) {
   const hasCaseStudy = Boolean(project.caseStudy);
   const { start: startTransition } = usePageTransition();
+  const shots = project.screenshots;
+  const [shotIndex, setShotIndex] = useState(0);
+
+  // cycle the screenshots like a slideshow
+  useEffect(() => {
+    if (!shots || shots.length < 2) return;
+    const id = setInterval(() => setShotIndex((i) => (i + 1) % shots.length), 3500);
+    return () => clearInterval(id);
+  }, [shots]);
 
   return (
     <motion.article
@@ -28,20 +38,48 @@ export default function ProjectCard({ project, featured = false, index = 0 }) {
         featured ? "md:flex-row" : ""
       }`}
     >
-      <Link
-        href={`/projects/${project.slug}`}
+      <div
         className={`relative block overflow-hidden bg-black/40 ${featured ? "md:w-[58%] aspect-[16/10] md:aspect-auto md:min-h-[380px]" : "aspect-[16/10]"}`}
-        aria-label={`${project.title} case study`}
       >
-        <Image
-          src={project.image}
-          alt={`${project.title} screenshot`}
-          fill
-          sizes={featured ? "(min-width: 768px) 640px, 100vw" : "(min-width: 768px) 520px, 100vw"}
-          className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
-        />
+        {shots ? (
+          <AnimatePresence initial={false}>
+            <motion.div
+              key={shots[shotIndex].src}
+              initial={{ opacity: 0, x: 40 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: -40 }}
+              transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute inset-0 p-3 sm:p-4"
+            >
+              <div className="relative h-full w-full transition-transform duration-700 group-hover:scale-[1.02]">
+                <Image
+                  src={shots[shotIndex].src}
+                  alt={shots[shotIndex].caption ?? `${project.title} screenshot`}
+                  fill
+                  sizes={featured ? "(min-width: 768px) 640px, 100vw" : "(min-width: 768px) 520px, 100vw"}
+                  className="object-contain"
+                />
+              </div>
+            </motion.div>
+          </AnimatePresence>
+        ) : (
+          <Image
+            src={project.image}
+            alt={`${project.title} screenshot`}
+            fill
+            sizes={featured ? "(min-width: 768px) 640px, 100vw" : "(min-width: 768px) 520px, 100vw"}
+            className="object-cover object-top transition-transform duration-700 group-hover:scale-[1.04]"
+          />
+        )}
+        {shots && (
+          <span className="absolute bottom-3 left-1/2 flex -translate-x-1/2 gap-1.5">
+            {shots.map((s, i) => (
+              <span key={s.src} className={`h-1.5 rounded-full transition-all ${i === shotIndex ? "w-5 bg-accent" : "w-1.5 bg-white/30"}`} />
+            ))}
+          </span>
+        )}
         <div className={`absolute inset-0 bg-gradient-to-tr ${project.accent} opacity-0 mix-blend-overlay transition-opacity duration-500 group-hover:opacity-30`} />
-      </Link>
+      </div>
 
       <div className={`flex flex-1 flex-col p-6 sm:p-8 ${featured ? "md:w-[42%]" : ""}`}>
         <div className="flex items-center justify-between gap-3">

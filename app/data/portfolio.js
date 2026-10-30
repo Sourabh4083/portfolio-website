@@ -39,7 +39,12 @@ export const projects = [
     role: "Sole developer: design, backend, frontend, testing, deployment",
     live: "https://salon-inventory-three.vercel.app/",
     github: "https://github.com/Sourabh4083/salon_inventory",
-    image: "/projects/salon-erp/desktop.png",
+    image: "/projects/salon-erp/owner-dashboard.png",
+    screenshots: [
+      { src: "/projects/salon-erp/login.png", caption: "Sign-in page" },
+      { src: "/projects/salon-erp/owner-dashboard.png", caption: "Owner dashboard: sales, spend, profit, cash vs bank and stock value" },
+      { src: "/projects/salon-erp/manager-dashboard.png", caption: "Manager dashboard: stock and billing only, no costs or profit" },
+    ],
     accent: "from-cyan-400 to-violet-500",
     stack: ["Next.js 16", "React 19", "TypeScript", "PostgreSQL", "Prisma", "Tailwind", "Zod", "Vitest"],
     highlights: [

@@ -3,6 +3,7 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { FaArrowLeft, FaArrowRight, FaExternalLinkAlt, FaGithub } from "react-icons/fa";
 import { projects } from "../../data/portfolio";
+import ScreenshotSlider from "../../components/ScreenshotSlider";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -86,20 +87,24 @@ export default async function CaseStudyPage({ params }) {
         </div>
       </header>
 
-      {/* screenshot in a browser frame */}
-      <div className="mt-12 overflow-hidden rounded-2xl border border-line bg-[#0b0b18] shadow-2xl shadow-cyan-500/5">
-        <div className="flex items-center gap-1.5 border-b border-line px-4 py-3">
-          <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-          <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
-          {project.live && (
-            <span className="ml-4 truncate font-mono text-[11px] text-muted">{project.live.replace(/^https?:\/\//, "")}</span>
-          )}
+      {/* screenshots in a browser frame */}
+      {project.screenshots ? (
+        <ScreenshotSlider shots={project.screenshots} url={project.live} title={project.title} />
+      ) : (
+        <div className="mt-12 overflow-hidden rounded-2xl border border-line bg-[#0b0b18] shadow-2xl shadow-cyan-500/5">
+          <div className="flex items-center gap-1.5 border-b border-line px-4 py-3">
+            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+            <span className="h-2.5 w-2.5 rounded-full bg-white/15" />
+            {project.live && (
+              <span className="ml-4 truncate font-mono text-[11px] text-muted">{project.live.replace(/^https?:\/\//, "")}</span>
+            )}
+          </div>
+          <div className="relative aspect-[16/10]">
+            <Image src={project.image} alt={`${project.title} screenshot`} fill priority sizes="(min-width: 896px) 832px, 100vw" className="object-cover object-top" />
+          </div>
         </div>
-        <div className="relative aspect-[16/10]">
-          <Image src={project.image} alt={`${project.title} screenshot`} fill priority sizes="(min-width: 896px) 832px, 100vw" className="object-cover object-top" />
-        </div>
-      </div>
+      )}
 
       {cs ? (
         <>
